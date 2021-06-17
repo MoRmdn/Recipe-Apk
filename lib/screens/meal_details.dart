@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mealapp/dummy_data.dart';
 
-
 // ignore: camel_case_types
 class mealDetail extends StatelessWidget {
   static String routeName = '/mealdet';
-
-  const mealDetail();
+  final Function taggleFav;
+  final Function isMealFav;
+  mealDetail(this.taggleFav,this.isMealFav);
 
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
@@ -93,11 +93,10 @@ class mealDetail extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-        Navigator.of(context).pop(mealId);},
-        child:
-        Icon(Icons.delete),
+        onPressed: () =>taggleFav(mealId),
+        child: Icon(
+          isMealFav(mealId) ? Icons.star : Icons.star_border,
+        ),
       ),
     );
   }

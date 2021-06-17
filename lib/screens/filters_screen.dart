@@ -4,17 +4,28 @@ import 'package:mealapp/models/my_drawer.dart';
 class filters extends StatefulWidget {
   static final routeName = '/filt_screen';
 
-  const filters();
+  final Function selectedFilters;
+  final Map currFilters;
+  filters(this.selectedFilters,this.currFilters);
 
   @override
   _filtersState createState() => _filtersState();
-}
+  }
 
 class _filtersState extends State<filters> {
   bool _GlutenFree = false;
   bool _LactoseFree = false;
-  bool _Vegan = false;
   bool _Vegetarian = false;
+  bool _Vegan = false;
+
+  @override
+  initState(){
+    _GlutenFree=widget.currFilters['Gluten'];
+    _LactoseFree=widget.currFilters['Lactose'];
+    _Vegetarian=widget.currFilters['Vegetarian'];
+    _Vegan=widget.currFilters['Vegan'];
+    super.initState();
+  }
 
   Widget buildSwitchListTile(String title, String description,
       bool currentValue, Function updatedValue) {
@@ -30,7 +41,18 @@ class _filtersState extends State<filters> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Filters'),
+        title: Text('Filters'),actions: [
+          IconButton(icon:Icon(Icons.save) , onPressed: (){
+            Map<String,bool> selectedFilters={
+            'Gluten': _GlutenFree,
+            'Lactose': _LactoseFree,
+            'Vegetarian': _Vegetarian,
+            'Vegan': _Vegan,
+            };
+            widget.selectedFilters(selectedFilters);
+          },
+          ),
+      ],
       ),
       body: Column(
         children: [
